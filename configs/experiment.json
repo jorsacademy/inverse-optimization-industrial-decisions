@@ -1,12 +1,19 @@
 {
   "problem": "multi_product_resource_allocation_lp",
-  "train_seeds": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
-  "test_seeds": [100, 101, 102, 103, 104, 105],
+  "status": "feature_complete",
+  "train_seeds": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+  "nominal_final_seeds": [100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111],
+  "tight_capacity_ood_seeds": [200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211],
+  "training_regimes": {
+    "clean": 0.0,
+    "noisy_near_optimal": 0.12
+  },
   "inverse": {
     "slack_penalty": 50.0,
     "tolerance": 1e-7,
     "max_iterations": 30,
-    "normalization": "theta >= 0, sum(theta) = 1"
+    "normalization": "theta >= 0, sum(theta) = 1",
+    "challenger_generation": "forward LP separation"
   },
   "baselines": ["uniform", "random"],
   "primary_metric": "held_out_decision_regret",
@@ -17,5 +24,13 @@
     "challenger_count",
     "constraint_generation_iterations",
     "training_slack"
-  ]
+  ],
+  "inference": {
+    "paired_references": ["uniform", "random"],
+    "bootstrap_confidence": 0.95,
+    "objective_bootstrap_samples": 20,
+    "paired_bootstrap_samples": 4000,
+    "sign_test": "exact_two_sided"
+  },
+  "selection_rule": "Final nominal and OOD capacity seeds are evaluation-only. No objective-recovery setting is tuned on them."
 }
